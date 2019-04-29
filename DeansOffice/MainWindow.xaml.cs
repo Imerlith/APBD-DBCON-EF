@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeansOffice.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -21,14 +22,29 @@ namespace DeansOffice
     /// </summary>
     public partial class MainWindow : Window
     {
+        PjatkDB context;
         public MainWindow()
         {
             InitializeComponent();
-            var students = DAL.StudentDBService.GetStudentData();
-            DataGrid.ItemsSource = students;
+            InitializeDBConn();
+            
 
         }
 
+        private void InitializeDBConn()
+        {
+            try
+            {
+                 context = new PjatkDB();
+                DataGrid.ItemsSource = context.Students.ToList();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Błąd łączenia z bazą danych");
+            }
+           
+            
+        }
         
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
