@@ -52,29 +52,29 @@ namespace DeansOffice
             var selectedCount = DataGrid.SelectedItems.Count;
             if (selectedCount > 0)
             {
-                var selected = DataGrid.SelectedItems.Cast<Structures.Student>().ToList();
+                var selected = DataGrid.SelectedItems.Cast<Student>().ToList();
                 
-                var source = DataGrid.ItemsSource as ObservableCollection<Structures.Student>;
+                var source = DataGrid.ItemsSource as ObservableCollection<Student>;
+                
+               
                 if (source != null)
                 {
                     if(MessageBox.Show($"Czy napewno chcesz usunąć {selectedCount} studentów ?", "Question",
                         MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                     {
                         
-                        foreach (Structures.Student student in selected)
+                        foreach (Student student in selected)
                         {
-                            
-                           
-                            //if (source.Contains(student))
                            source.Remove(student);
+                            context.Students.Remove(student);
                         }
-                        DAL.StudentDBService.DeleteFromDB(selected);
+                        
                     }
                    
                 }
                 
             }
-
+            context.SaveChangesAsync();
         }
 
         private void AddNewStudentButton_Click(object sender, RoutedEventArgs e)
@@ -99,11 +99,16 @@ namespace DeansOffice
             }
 
         }
-        private void AddStudentHandler(object sender, Structures.Student nStudent)
+        private void AddStudentHandler(object sender, Student nStudent)
         {
-            var source = DataGrid.ItemsSource as ObservableCollection<Structures.Student>;
-            source.Add(nStudent);
-            DAL.StudentDBService.AddToDB(nStudent);
+            var source = DataGrid.ItemsSource as ObservableCollection<Student>;
+            if (source != null)
+            {
+                source.Add(nStudent);
+                context.Students.Add(nStudent);
+                context.SaveChangesAsync();
+            }
+           
         }
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -112,22 +117,22 @@ namespace DeansOffice
             var selected = dg.SelectedItem;
             if (selected != null)
             {
-                var student = selected as Structures.Student;
+                var student = selected as Student;
                 var addWindow = new AddStudentWindow(student);
                 addWindow.UpdateStudent += new UpdateStudentHandler(UpdateStudentHandler);
                 addWindow.ShowDialog();
             }
         }
-        private void UpdateStudentHandler(object sender, Structures.Student uStudent)
+        private void UpdateStudentHandler(object sender, Student uStudent)
         {
-            var source = DataGrid.ItemsSource as ObservableCollection<Structures.Student>;
-            var index = source.ToList().FindIndex(s => s.id == uStudent.id);
+            var source = DataGrid.ItemsSource as ObservableCollection<Student>;
+            var index = source.ToList().FindIndex(s => s.IdStudent == uStudent.IdStudent);
             var toUpdate = source[index];
             toUpdate.FirstName = uStudent.FirstName;
             toUpdate.LastName = uStudent.LastName;
             toUpdate.IndexNumber = uStudent.IndexNumber;
             DataGrid.Items.Refresh();
-            DAL.StudentDBService.UpdateDB(uStudent);
+            
         }
     }
 }
