@@ -35,10 +35,13 @@ namespace DeansOffice
         {
            
                 connection = new DAL.EfServiceDb();
-                DataGrid.ItemsSource = connection.GetStudents();
-                
-           
-           
+                var source = new ObservableCollection<Student>();
+                foreach(Student student in connection.GetStudents())
+                {
+                source.Add(student);
+                }
+            DataGrid.ItemsSource = source;
+        
             
         }
         
@@ -59,10 +62,11 @@ namespace DeansOffice
                         
                         foreach (Student student in selected)
                         {
+
+
+                            connection.RemoveStudentFromDB(student);
+                            source.Remove(student);
                             
-                           
-                            //if (source.Contains(student))
-                           source.Remove(student);
                         }
                        
                     }
@@ -70,7 +74,7 @@ namespace DeansOffice
                 }
                 
             }
-
+            connection.Commit();
         }
 
         private void AddNewStudentButton_Click(object sender, RoutedEventArgs e)
@@ -99,6 +103,7 @@ namespace DeansOffice
         {
             var source = DataGrid.ItemsSource as ObservableCollection<Student>;
             source.Add(nStudent);
+            connection.AddStudentToDB(nStudent);
            
         }
 
@@ -116,13 +121,15 @@ namespace DeansOffice
         }
         private void UpdateStudentHandler(object sender, Student uStudent)
         {
-            var source = DataGrid.ItemsSource as ObservableCollection<Student>;
-            var index = source.ToList().FindIndex(s => s.IdStudent == uStudent.IdStudent);
-            var toUpdate = source[index];
-            toUpdate.FirstName = uStudent.FirstName;
-            toUpdate.LastName = uStudent.LastName;
-            toUpdate.IndexNumber = uStudent.IndexNumber;
-            DataGrid.Items.Refresh();
+            //var source = DataGrid.ItemsSource as ObservableCollection<Student>;
+            //var index = source.ToList().FindIndex(s => s.IdStudent == uStudent.IdStudent);
+            //var toUpdate = source[index];
+            //toUpdate.FirstName = uStudent.FirstName;
+            //toUpdate.LastName = uStudent.LastName;
+            //toUpdate.IndexNumber = uStudent.IndexNumber;
+            //DataGrid.Items.Refresh();
+            connection.Commit();
+            InitializeDBConn();
           
         }
     }

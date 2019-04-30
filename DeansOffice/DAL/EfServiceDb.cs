@@ -18,7 +18,12 @@ namespace DeansOffice.DAL
             var list = new List<Student>();
             try
             {
-                return context.Students.ToList();
+                var students = context.Students.ToList();
+                foreach(Student student in students)
+                {
+                    student.Study = context.Studies.Where(s => s.IdStudies == student.IdStudies) as Study;
+                }
+                return students;
             }
             catch (Exception)
             {
@@ -28,11 +33,20 @@ namespace DeansOffice.DAL
         }
         public void AddStudentToDB(Student student)
         {
+            student.Address = "jakas";
+            
             context.Students.Add(student);
+            Commit();
         }
         public void RemoveStudentFromDB(Student toRemove)
         {
             context.Students.Remove(toRemove);
+            
+        }
+
+        public void Commit()
+        {
+            context.SaveChanges();
         }
         
     }
