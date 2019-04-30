@@ -22,7 +22,7 @@ namespace DeansOffice
     /// </summary>
     public partial class MainWindow : Window
     {
-        PjatkDB context;
+        DAL.EfServiceDb connection;
         public MainWindow()
         {
             InitializeComponent();
@@ -33,16 +33,15 @@ namespace DeansOffice
 
         private void InitializeDBConn()
         {
-            try
-            {
-                 context = new PjatkDB();
-                DataGrid.ItemsSource = context.Students.ToList();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Błąd łączenia z bazą danych");
-            }
            
+                connection = new DAL.EfServiceDb();
+                var source = new ObservableCollection<Student>();
+                foreach(Student student in connection.GetStudents())
+                {
+                source.Add(student);
+                }
+            DataGrid.ItemsSource = source;
+        
             
         }
         

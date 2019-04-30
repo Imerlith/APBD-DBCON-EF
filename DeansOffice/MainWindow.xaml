@@ -37,7 +37,7 @@
                 <DataGridTextColumn Header="Imię" Binding="{Binding FirstName}" Width="*"/>
                 <DataGridTextColumn Header="Numer indeksu" Binding="{Binding IndexNumber}"  Width="*"/>
                 <DataGridTextColumn Header="Adres" Binding="{Binding Address}"  Width="*"/>
-                <DataGridTextColumn Header="Studia" Binding="{Binding Studies}"  Width="2*"/>
+                <DataGridTextColumn Header="Studia" Binding="{Binding Study}"  Width="2*"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

@@ -29,5 +29,7 @@ namespace DeansOffice.Models
         public string IndexNumber { get; set; }
 
         public int IdStudies { get; set; }
+
+        public Study Study { get; set; }
     }
 }

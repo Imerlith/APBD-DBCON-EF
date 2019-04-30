@@ -85,6 +85,7 @@
     <Compile Include="AddStudentWindow.xaml.cs">
       <DependentUpon>AddStudentWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DAL\EfServiceDb.cs" />
     <Compile Include="Models\PjatkDB.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\Student_Subject.cs" />
