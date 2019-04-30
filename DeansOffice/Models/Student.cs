@@ -31,5 +31,6 @@ namespace DeansOffice.Models
         public int IdStudies { get; set; }
 
         public Study Study { get; set; }
+        
     }
 }

@@ -65,7 +65,7 @@ namespace DeansOffice
                         foreach (Student student in selected)
                         {
                            source.Remove(student);
-                            context.Students.Remove(student);
+                            connection.RemoveStudentFromDB(student);
                         }
                         
                     }
@@ -73,7 +73,7 @@ namespace DeansOffice
                 }
                 
             }
-            context.SaveChangesAsync();
+            connection.Commit();
         }
 
         private void AddNewStudentButton_Click(object sender, RoutedEventArgs e)
@@ -104,8 +104,8 @@ namespace DeansOffice
             if (source != null)
             {
                 source.Add(nStudent);
-                context.Students.Add(nStudent);
-                context.SaveChangesAsync();
+                connection.AddStudentToDB(nStudent);
+                
             }
            
         }

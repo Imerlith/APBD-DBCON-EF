@@ -18,11 +18,10 @@ namespace DeansOffice.DAL
             var list = new List<Student>();
             try
             {
-                var students = context.Students.ToList();
-                foreach(Student student in students)
-                {
-                    student.Study = context.Studies.Where(s => s.IdStudies == student.IdStudies) as Study;
-                }
+                var students = context.Students.AsEnumerable().Join(context.Studies, stu => stu.IdStudies, stad => stad.IdStudies, (stu, stad) => new Student {
+                    FirstName = stu.FirstName,LastName= stu.LastName,IndexNumber = stu.IndexNumber,Address=stu.Address,Study =stad
+                }).ToList();
+                
                 return students;
             }
             catch (Exception)
