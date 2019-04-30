@@ -13,7 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using DeansOffice.Structures;
+using DeansOffice.Models;
 namespace DeansOffice
 {
     /// <summary>
@@ -30,8 +30,7 @@ namespace DeansOffice
         public AddStudentWindow()
         {
             InitializeComponent();
-            StudiesComboBox.ItemsSource = DAL.StudentDBService.ListOfStudies;
-            SubjectListBox.ItemsSource = DAL.StudentDBService.ListOfSubjects;
+            
         }
         public AddStudentWindow(Student student)
         {
@@ -46,10 +45,8 @@ namespace DeansOffice
             LastNameTxtBox.Text = received.LastName;
             FirstNameTxtBox.Text = received.FirstName;
             IndexTxtBox.Text = received.IndexNumber;
-            StudiesComboBox.ItemsSource = DAL.StudentDBService.ListOfStudies;
-            StudiesComboBox.SelectedItem = received.Studies;
            
-            SubjectListBox.ItemsSource = received.Subjects;
+          
 
         }
 
@@ -66,18 +63,18 @@ namespace DeansOffice
                     FirstName = NormalizeInput(FirstNameTxtBox.Text),
                     LastName = NormalizeInput(LastNameTxtBox.Text),
                     IndexNumber = IndexTxtBox.Text,
-                    Studies = StudiesComboBox.SelectedItem as Studies
+                    
                 };
                 if (received == null)
                 {
-                    nStudent.id = 9999;
+                    
                     AddStudent(this, nStudent);
                 }
                 else
                 {
                     if (IsChanged(nStudent))
                     {
-                        nStudent.id = received.id;
+                        
                         UpdateStudent(this, nStudent);
                     }
                 }
