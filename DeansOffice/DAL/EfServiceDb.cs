@@ -12,17 +12,34 @@ namespace DeansOffice.DAL
     {
         PjatkDB context = new PjatkDB();
        
+       
 
         public ICollection<Student> GetStudents()
         {
             var list = new List<Student>();
             try
             {
-                var students = context.Students.AsEnumerable().Join(context.Studies, stu => stu.IdStudies, stad => stad.IdStudies, (stu, stad) => new Student {
+                var students = context.Students.AsEnumerable()
+                    .Join(context.Studies, stu => stu.IdStudies, stad => stad.IdStudies, (stu, stad) => new Student {
                     FirstName = stu.FirstName,LastName= stu.LastName,IndexNumber = stu.IndexNumber,Address=stu.Address,Study =stad
                 }).ToList();
                 
                 return students;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Błąd łączenia z bazą danych");
+                return list;
+            }
+        }
+        public ICollection<Study> GetStudies()
+        {
+            var list = new List<Study>();
+            try
+            {
+                var studies = context.Studies.ToList();
+
+                return studies;
             }
             catch (Exception)
             {

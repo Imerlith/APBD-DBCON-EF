@@ -27,16 +27,17 @@ namespace DeansOffice
         public event AddStudentHandler AddStudent;
         public event UpdateStudentHandler UpdateStudent;
         private Student received;
-        public AddStudentWindow()
+        public AddStudentWindow(List<Study> studies)
         {
             InitializeComponent();
-            
+            StudiesComboBox.ItemsSource = studies;
         }
-        public AddStudentWindow(Student student)
+        public AddStudentWindow(Student student,List<Study> studies)
         {
             InitializeComponent();
             received = student;
             FillForm();
+            StudiesComboBox.ItemsSource = studies;
             
         }
 
@@ -45,7 +46,7 @@ namespace DeansOffice
             LastNameTxtBox.Text = received.LastName;
             FirstNameTxtBox.Text = received.FirstName;
             IndexTxtBox.Text = received.IndexNumber;
-           
+            
           
 
         }

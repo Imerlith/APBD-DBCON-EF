@@ -23,6 +23,8 @@ namespace DeansOffice
     public partial class MainWindow : Window
     {
         DAL.EfServiceDb connection;
+
+        List<Study> Studies;
         public MainWindow()
         {
             InitializeComponent();
@@ -41,7 +43,11 @@ namespace DeansOffice
                 source.Add(student);
                 }
             DataGrid.ItemsSource = source;
-        
+            Studies = new List<Study>();
+            foreach(Study study in connection.GetStudies())
+            {
+                Studies.Add(study);
+            }
             
         }
         
@@ -78,7 +84,7 @@ namespace DeansOffice
 
         private void AddNewStudentButton_Click(object sender, RoutedEventArgs e)
         {
-            var addStudnetWindow = new AddStudentWindow();
+            var addStudnetWindow = new AddStudentWindow(Studies);
             addStudnetWindow.AddStudent += new AddStudentHandler(AddStudentHandler);
             addStudnetWindow.ShowDialog();
             
@@ -117,7 +123,7 @@ namespace DeansOffice
             if (selected != null)
             {
                 var student = selected as Student;
-                var addWindow = new AddStudentWindow(student);
+                var addWindow = new AddStudentWindow(student,Studies);
                 addWindow.UpdateStudent += new UpdateStudentHandler(UpdateStudentHandler);
                 addWindow.ShowDialog();
             }
