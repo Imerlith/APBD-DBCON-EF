@@ -1,6 +1,7 @@
 ﻿using DeansOffice.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +11,12 @@ namespace DeansOffice.DAL
 {
     class EfServiceDb
     {
-      public  PjatkDB context = new PjatkDB();
-       
+        public PjatkDB context;
+       public EfServiceDb()
+        {
+            context =  new PjatkDB();
+            context.Configuration.LazyLoadingEnabled = false;
+        }
        
 
         public ICollection<Student> GetStudents()
@@ -56,14 +61,32 @@ namespace DeansOffice.DAL
         }
         public void RemoveStudentFromDB(Student toRemove)
         {
-            context.Students.Remove(toRemove);
-            
+            var stu = new Student {IdStudent= toRemove.IdStudent };
+            context.Students.Attach(stu);
+            context.Students.Remove(stu);
         }
 
         public void Commit()
         {
-            context.SaveChanges();
+            bool saveFailed;
+            do
+            {
+                saveFailed = false;
+                try
+                {
+                    context.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    saveFailed = true;
+
+                   
+                    ex.Entries.Single().Reload();
+                }
+            } while (saveFailed);
+           
+
         }
-        
+
     }
 }
