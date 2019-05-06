@@ -21,12 +21,12 @@ namespace DeansOffice
     /// </summary>
 
     public delegate void AddStudentHandler(object sender, Student nStudent);
-    public delegate void UpdateStudentHandler(object sender, Student uStudent);
+   
     public partial class AddStudentWindow : Window
     {
         public event AddStudentHandler AddStudent;
-        public event UpdateStudentHandler UpdateStudent;
-        private Student received;
+        
+        private Student Received;
         public AddStudentWindow(List<Study> studies)
         {
             InitializeComponent();
@@ -35,7 +35,7 @@ namespace DeansOffice
         public AddStudentWindow(Student student,List<Study> studies)
         {
             InitializeComponent();
-            received = student;
+            Received = student;
             FillForm();
             StudiesComboBox.ItemsSource = studies;
             
@@ -43,9 +43,9 @@ namespace DeansOffice
 
         private void FillForm()
         {
-            LastNameTxtBox.Text = received.LastName;
-            FirstNameTxtBox.Text = received.FirstName;
-            IndexTxtBox.Text = received.IndexNumber;
+            LastNameTxtBox.Text = Received.LastName;
+            FirstNameTxtBox.Text = Received.FirstName;
+            IndexTxtBox.Text = Received.IndexNumber;
             
           
 
@@ -66,27 +66,20 @@ namespace DeansOffice
                     IndexNumber = IndexTxtBox.Text,
                     
                 };
-                if (received == null)
+                if (Received == null)
                 {
                     
                     AddStudent(this, nStudent);
                 }
-                else
-                {
-                    if (IsChanged(nStudent))
-                    {
-                        
-                        UpdateStudent(this, nStudent);
-                    }
-                }
+               
                
                 Close();
             }
         }
         private bool IsChanged(Student student)
         {
-            return student.IndexNumber != received.IndexNumber || student.FirstName != received.FirstName
-                || student.LastName != received.LastName;
+            return student.IndexNumber != Received.IndexNumber || student.FirstName != Received.FirstName
+                || student.LastName != Received.LastName;
         }
 
         private bool ValidateInput()

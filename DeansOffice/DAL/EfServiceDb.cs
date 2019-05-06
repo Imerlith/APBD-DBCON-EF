@@ -10,7 +10,7 @@ namespace DeansOffice.DAL
 {
     class EfServiceDb
     {
-        PjatkDB context = new PjatkDB();
+      public  PjatkDB context = new PjatkDB();
        
        
 

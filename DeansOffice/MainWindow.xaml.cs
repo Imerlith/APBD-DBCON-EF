@@ -123,21 +123,11 @@ namespace DeansOffice
             if (selected != null)
             {
                 var student = selected as Student;
+                connection.context.Entry(student).State = System.Data.Entity.EntityState.Unchanged;
                 var addWindow = new AddStudentWindow(student,Studies);
-                addWindow.UpdateStudent += new UpdateStudentHandler(UpdateStudentHandler);
                 addWindow.ShowDialog();
             }
         }
-        private void UpdateStudentHandler(object sender, Student uStudent)
-        {
-            var source = DataGrid.ItemsSource as ObservableCollection<Student>;
-            var index = source.ToList().FindIndex(s => s.IdStudent == uStudent.IdStudent);
-            var toUpdate = source[index];
-            toUpdate.FirstName = uStudent.FirstName;
-            toUpdate.LastName = uStudent.LastName;
-            toUpdate.IndexNumber = uStudent.IndexNumber;
-            DataGrid.Items.Refresh();
-            
-        }
+       
     }
 }
