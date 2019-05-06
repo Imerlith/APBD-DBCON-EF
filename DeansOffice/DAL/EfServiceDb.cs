@@ -50,7 +50,7 @@ namespace DeansOffice.DAL
         public void AddStudentToDB(Student student)
         {
             student.Address = "jakas";
-            
+            if (student.IdStudies == 0) student.IdStudies = 1;
             context.Students.Add(student);
             Commit();
         }

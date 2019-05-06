@@ -93,10 +93,10 @@ namespace DeansOffice
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var dg = sender as DataGrid;
-            var slectedCount = dg.SelectedItems.Count;
-            if (slectedCount > 1)
+            var selectedCount = dg.SelectedItems.Count;
+            if (selectedCount > 1)
             {
-                HowManySelectedLabel.Content = "Wybrałeś " + slectedCount + " studentów";
+                HowManySelectedLabel.Content = "Wybrałeś " + selectedCount + " studentów";
             }
             else
             {
@@ -111,7 +111,7 @@ namespace DeansOffice
             {
                 source.Add(nStudent);
                 connection.AddStudentToDB(nStudent);
-                
+               
             }
            
         }
@@ -123,7 +123,6 @@ namespace DeansOffice
             if (selected != null)
             {
                 var student = selected as Student;
-                connection.context.Entry(student).State = System.Data.Entity.EntityState.Unchanged;
                 var addWindow = new AddStudentWindow(student,Studies);
                 addWindow.ShowDialog();
             }
