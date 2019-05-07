@@ -123,6 +123,7 @@ namespace DeansOffice
             if (selected != null)
             {
                 var student = selected as Student;
+                connection.context.Students.Attach(student);
                 var addWindow = new AddStudentWindow(student,Studies);
                 addWindow.ShowDialog();
             }
