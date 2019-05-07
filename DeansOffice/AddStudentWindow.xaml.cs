@@ -46,7 +46,7 @@ namespace DeansOffice
             LastNameTxtBox.Text = Received.LastName;
             FirstNameTxtBox.Text = Received.FirstName;
             IndexTxtBox.Text = Received.IndexNumber;
-            
+            StudiesComboBox.SelectedItem = Received.Study;
           
 
         }
@@ -64,6 +64,7 @@ namespace DeansOffice
                     FirstName = NormalizeInput(FirstNameTxtBox.Text),
                     LastName = NormalizeInput(LastNameTxtBox.Text),
                     IndexNumber = IndexTxtBox.Text,
+                    Study = StudiesComboBox.SelectedItem as Study
                     
                 };
                 if (Received == null)

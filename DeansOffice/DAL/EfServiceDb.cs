@@ -12,12 +12,12 @@ namespace DeansOffice.DAL
     class EfServiceDb
     {
         public PjatkDB context;
-       public EfServiceDb()
+        public EfServiceDb()
         {
-            context =  new PjatkDB();
+            context = new PjatkDB();
             context.Configuration.LazyLoadingEnabled = false;
         }
-       
+
 
         public ICollection<Student> GetStudents()
         {
@@ -49,6 +49,21 @@ namespace DeansOffice.DAL
                 var studies = context.Studies.ToList();
 
                 return studies;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Błąd łączenia z bazą danych");
+                return list;
+            }
+        }
+        public ICollection<Subject> GetSubjects()
+        {
+            var list = new List<Subject>();
+            try
+            {
+                var subjects = context.Subjects.ToList();
+
+                return subjects;
             }
             catch (Exception)
             {
